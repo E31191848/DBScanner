@@ -20,10 +20,11 @@ class myTables
         } else {
             $check = $this->table->getTableName($key);
             if (isset($check)) {
-                return "Key $key already in use.";
+                return "Tabel $key sudah ada.";
             } else {
-                $this->table->setTableName($obj['tableName'], $key);
-                $this->table->setIsView($obj['isView'] ? 'true' : 'false', $key);
+                $this->table->tableSet($obj['tableName'], $obj['isView'] ? 'true' : 'false', $key);
+                // $this->table->setTableName($obj['tableName'], $key);
+                // $this->table->setIsView($obj['isView'] ? 'true' : 'false', $key);
                 return true;
             }
         }
@@ -39,7 +40,7 @@ class myTables
             );
             return $arr;
         } else {
-            echo "Invalid key $key.";
+            echo "Tabel $key tidak ada.";
         }
     }
 
@@ -58,8 +59,9 @@ class myTables
     {
         $check = $this->table->getTableName($key);
         if (isset($check)) {
-            $this->table->deleteTableName($key);
-            $this->table->deleteIsView($key);
+            $this->table->tableDelete($key);
+            // $this->table->deleteTableName($key);
+            // $this->table->deleteIsView($key);
 
             return true;
         } else {

@@ -2,56 +2,129 @@
 
 class myField
 {
-    private $fieldName, $dataType, $dataLength;
-    private $isPK, $isNull = FALSE;
+    private $fieldName, $dataType, $dataLength = [];
+    private $isPK, $isNull = [];
 
-    public function getFieldName()
+    public function fieldSet($fieldName, $dataType, $dataLength, $isPK, $isNull, $key)
     {
-        return $this->fieldName;
+        $this->fieldName[$key] = $fieldName;
+        $this->dataType[$key] = $dataType;
+        $this->dataLength[$key] = $dataLength;
+        $this->isPK[$key] = $isPK;
+        $this->isNull[$key] = $isNull;
+    }
+    
+    public function fieldDelete($key)
+    {
+        unset($this->fieldName[$key]);
+        unset($this->dataType[$key]);
+        unset($this->dataLength[$key]);
+        unset($this->isPK[$key]);
+        unset($this->isNull[$key]);
     }
 
-    public function setFieldName($value)
+    // fieldName
+    public function getFieldName($value)
     {
-        $this->fieldName = $value;
+        if (!empty($this->fieldName[$value])) return $this->fieldName[$value];
     }
 
-    public function getDataType()
+    public function getAllFieldName()
     {
-        return $this->dataType;
+        if (!empty($this->fieldName)) return $this->fieldName;
     }
 
-    public function setDataType($value)
+    public function setFieldName($value, $key)
     {
-        $this->dataType = $value;
+        $this->fieldName[$key] = $value;
     }
 
-    public function getDataLength()
+    public function deleteFieldName($key)
     {
-        return $this->dataLength;
+        unset($this->fieldName[$key]);
     }
 
-    public function setDataLength($value)
+    // dataType
+    public function getDataType($value)
     {
-        $this->dataLength = $value;
+        if (!empty($this->dataType[$value])) return $this->dataType[$value];
     }
 
-    public function getIsPK()
+    public function getAllDataType()
     {
-        return $this->isPK;
+        if (!empty($this->dataType)) return $this->dataType;
     }
 
-    public function setIsPK($value)
+    public function setDataType($value, $key)
     {
-        $this->isPK = $value;
+        $this->dataType[$key] = $value;
     }
 
-    public function getIsNull()
+    public function deleteDataType($key)
     {
-        return $this->isNull;
+        unset($this->dataType[$key]);
     }
 
-    public function setIsNull($value)
+    // dataLength
+    public function getDataLength($value)
     {
-        $this->isNull = $value;
+        if (!empty($this->dataLength[$value])) return $this->dataLength[$value];
+    }
+
+    public function getAllDataLength()
+    {
+        if (!empty($this->dataLength)) return $this->dataLength;
+    }
+
+    public function setDataLength($value, $key)
+    {
+        $this->dataLength[$key] = $value;
+    }
+
+    public function deleteDataLength($key)
+    {
+        unset($this->dataLength[$key]);
+    }
+
+    // isPK
+    public function getIsPK($value)
+    {
+        if (!empty($this->isPK[$value])) return $this->isPK[$value];
+    }
+
+    public function getAllIsPK()
+    {
+        if (!empty($this->isPK)) return $this->isPK;
+    }
+
+    public function setIsPK($value, $key)
+    {
+        $this->isPK[$key] = $value;
+    }
+
+    public function deleteIsPK($key)
+    {
+        unset($this->isPK[$key]);
+    }
+
+    // isNull
+    public function getIsNull($value)
+    {
+        if (!empty($this->isNull[$value])) return $this->isNull[$value];
+    }
+
+    public function getAllIsNull()
+    {
+        if (!empty($this->isNull)) return $this->isNull;
+    }
+
+    public function setIsNull($value, $key)
+    {
+        $this->isNull[$key] = $value;
+    }
+
+    public function deleteIsNull($key)
+    {
+        unset($this->isNull[$key]);
     }
 }
