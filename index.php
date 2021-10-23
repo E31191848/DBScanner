@@ -17,7 +17,7 @@ echo "<h1 style='text-align: center;'>TABLE</h1>";
 echo "<h2>show all table</h2>";
 print_r($db->tables()->showAllTable()) . '<br>';
 
-echo 'Total Tabel : ' . $db->tables()->count() . '<br>';
+echo '<h3>Total Tabel : ' . $db->tables()->count() . '</h3><br>';
 echo "<br><hr><br>";
 
 // add table
@@ -32,7 +32,7 @@ $obj = array(
 $db->tables()->addTable($obj);
 print_r($db->tables()->showAllTable()) . '<br>';
 
-echo 'Total Tabel : ' . $db->tables()->count() . '<br>';
+echo '<h3>Total Tabel : ' . $db->tables()->count() . '</h3><br>';
 echo "<br><hr><br>";
 
 // delete table
@@ -40,7 +40,7 @@ echo "<h2>delete table</h2>";
 $db->tables()->deleteTable($tableName);
 print_r($db->tables()->showAllTable()) . '<br>';
 
-echo 'Total Tabel : ' . $db->tables()->count() . '<br>';
+echo '<h3>Total Tabel : ' . $db->tables()->count() . '</h3><br>';
 echo "<br><hr><br>";
 
 // get specific table
@@ -59,7 +59,7 @@ $tb = $db->tables()->selectTable($table);
 // show all field
 echo "<h2>show all field</h2>";
 print_r($tb->fields()->showAllField()) . '<br>';
-echo "Total field pada tabel $table : " . $tb->fields()->count() . '<br>';
+echo "<h3>Total field pada tabel $table : " . $tb->fields()->count() . '</h3><br>';
 echo "<br><hr><br>";
 
 // add field
@@ -79,7 +79,7 @@ $obj = array(
 
 $tb->fields()->addField($obj);
 print_r($tb->fields()->showAllField()) . '<br>';
-echo "Total field pada tabel $table : " . $tb->fields()->count() . '<br>';
+echo "<h3>Total field pada tabel $table : " . $tb->fields()->count() . '</h3><br>';
 echo "<br><hr><br>";
 
 // get specific field
@@ -91,7 +91,7 @@ echo "<br><hr><br>";
 echo "<h2>delete field</h2>";
 $tb->fields()->deleteField($fieldName);
 print_r($tb->fields()->showAllField()) . '<br>';
-echo "Total field pada tabel $table : " . $tb->fields()->count() . '<br>';
+echo "<h3>Total field pada tabel $table : " . $tb->fields()->count() . '</h3><br>';
 echo "<br><hr><br>";
 
 echo '<pre>';

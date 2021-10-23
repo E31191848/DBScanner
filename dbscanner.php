@@ -33,6 +33,7 @@ class DBScanner
         }
     }
 
+    // menambahkan semua table dari database ke array / collection
     public function addAllTable($con, $db)
     {
         $result = $con->query('SHOW TABLES;');
