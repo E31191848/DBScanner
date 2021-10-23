@@ -21,6 +21,14 @@ class DBScanner
             if (!$this->addAllTable($koneksi, $db)) {
                 die("Gagal sync table!");
             }
+            $this->tables->setDB(
+                array(
+                    'koneksi' => $koneksi,
+                    'host' => $host, 
+                    'username' => $usrname,
+                    'dbname' => $db
+                )
+            );
             return $koneksi;
         }
     }
@@ -36,16 +44,12 @@ class DBScanner
                                 FROM information_schema.tables 
                                 WHERE TABLE_SCHEMA = '$db' AND TABLE_NAME = '$tb_name'")
             );
-            if ($isViewRow[0] == 'VIEW') {
-                $isView = true;
-            } else {
-                $isView = false;
-            }
+            $isViewRow[0] == 'VIEW' ? $isView = true : $isView = false;
             $obj = array(
                 'tableName' => $tb_name,
                 'isView' => $isView
             );
-            $status = $this->tables->addTable($obj, $tb_name);
+            $status = $this->tables->addTable($obj);
         }
 
         return $status;

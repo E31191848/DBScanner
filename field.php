@@ -13,7 +13,7 @@ class myField
         $this->isPK[$key] = $isPK;
         $this->isNull[$key] = $isNull;
     }
-    
+
     public function fieldDelete($key)
     {
         unset($this->fieldName[$key]);

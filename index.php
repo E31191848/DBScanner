@@ -7,38 +7,91 @@ $db = new DBScanner();
 // scan db
 $db->scanMySQL('localhost', 'root', '', 'db_kapron_petshop');
 
-// show all table
-echo '<pre>';
-print_r($db->tables()->showAllTable());
 echo '<pre>';
 
-// count all table
-echo 'Total Tabel : ' . $db->tables()->count();
+
+/* ---------------------TABLE--------------------- */
+echo "<h1 style='text-align: center;'>TABLE</h1>";
+
+// show all table
+echo "<h2>show all table</h2>";
+print_r($db->tables()->showAllTable()) . '<br>';
+
+echo 'Total Tabel : ' . $db->tables()->count() . '<br>';
+echo "<br><hr><br>";
 
 // add table
+echo "<h2>add table</h2>";
 $tableName = 'tb_mantap';
 $isview = false;
-$obj = array (
+$obj = array(
     'tableName' => $tableName,
     'isView' => $isview
 );
 
-$db->tables()->addTable($obj, $tableName);
-echo '<pre>';
-print_r($db->tables()->showAllTable());
-echo '<pre>';
+$db->tables()->addTable($obj);
+print_r($db->tables()->showAllTable()) . '<br>';
 
-// count all table
-echo 'Total Tabel : ' . $db->tables()->count();
+echo 'Total Tabel : ' . $db->tables()->count() . '<br>';
+echo "<br><hr><br>";
 
+// delete table
+echo "<h2>delete table</h2>";
 $db->tables()->deleteTable($tableName);
-echo '<pre>';
-print_r($db->tables()->showAllTable());
-echo '<pre>';
+print_r($db->tables()->showAllTable()) . '<br>';
 
-// count all table
-echo 'Total Tabel : ' . $db->tables()->count();
+echo 'Total Tabel : ' . $db->tables()->count() . '<br>';
+echo "<br><hr><br>";
 
-echo'<br><br>';
 // get specific table
-print_r($db->tables()->getTable('report_penjualan_harian'));
+echo "<h2>get specific table</h2>";
+print_r($db->tables()->getTable('report_penjualan_harian')) . '<br>';
+echo "<br><hr><br>";
+
+
+/* ---------------------FIELD--------------------- */
+echo "<h1 style='text-align: center;'>FIELD</h1>";
+
+// select table
+$table = 'tb_customer';
+$tb = $db->tables()->selectTable($table);
+
+// show all field
+echo "<h2>show all field</h2>";
+print_r($tb->fields()->showAllField()) . '<br>';
+echo "Total field pada tabel $table : " . $tb->fields()->count() . '<br>';
+echo "<br><hr><br>";
+
+// add field
+echo "<h2>add field</h2>";
+$fieldName = 'port';
+$dataType = 'int';
+$dataLength = '11';
+$isPK = true;
+$isNull = false;
+$obj = array(
+    'fieldName' => $fieldName,
+    'dataType' => $dataType,
+    'dataLength' => $dataLength,
+    'isPK' => $isPK,
+    'isNull' => $isNull
+);
+
+$tb->fields()->addField($obj);
+print_r($tb->fields()->showAllField()) . '<br>';
+echo "Total field pada tabel $table : " . $tb->fields()->count() . '<br>';
+echo "<br><hr><br>";
+
+// get specific field
+echo "<h2>get specific field</h2>";
+print_r($tb->fields()->getField($fieldName));
+echo "<br><hr><br>";
+
+// delete field
+echo "<h2>delete field</h2>";
+$tb->fields()->deleteField($fieldName);
+print_r($tb->fields()->showAllField()) . '<br>';
+echo "Total field pada tabel $table : " . $tb->fields()->count() . '<br>';
+echo "<br><hr><br>";
+
+echo '<pre>';

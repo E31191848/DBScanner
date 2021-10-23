@@ -10,7 +10,7 @@ class myTable
         $this->tableName[$key] = $tableName;
         $this->isView[$key] = $isView;
     }
-    
+
     public function tableDelete($key)
     {
         unset($this->tableName[$key]);
