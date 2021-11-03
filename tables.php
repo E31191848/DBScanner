@@ -72,10 +72,6 @@ class myTables
         return count($this->arrTable);
     }
 
-    public function show(){
-        return $this->table->show();
-    }
-
     public function table()
     {
         return $this->table;

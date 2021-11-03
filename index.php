@@ -12,6 +12,13 @@ echo '<pre>';
 /* ---------------------TABLE--------------------- */
 echo "<h1 style='text-align: center;'>TABLE</h1>";
 
+
+// get specific table
+echo "<h2>get specific table</h2>";
+print_r($db->tables()->getTable('report_penjualan_harian')->table()->show()) . '<br>';
+print_r($db->tables()->getTable('report_penjualan_harian')->table()->getIsView()) . '<br>';
+echo "<br><hr><br>";
+
 // show all table
 echo "<h2>show all table</h2>";
 print_r($db->tables()->getAllTable()) . '<br>';
@@ -42,11 +49,6 @@ print_r($db->tables()->getAllTable()) . '<br>';
 echo '<h3>Total Tabel : ' . $db->tables()->count() . '</h3><br>';
 echo "<br><hr><br>";
 
-// get specific table
-echo "<h2>get specific table</h2>";
-print_r($db->tables()->getTable('report_penjualan_harian')->show()) . '<br>';
-echo "<br><hr><br>";
-
 
 /* ---------------------FIELD--------------------- */
 echo "<h1 style='text-align: center;'>FIELD</h1>";
@@ -54,6 +56,12 @@ echo "<h1 style='text-align: center;'>FIELD</h1>";
 // select table
 $table = 'tb_customer';
 $tb = $db->tables()->getTable($table);
+
+// get specific field
+echo "<h2>get specific field</h2>";
+print_r($tb->fields()->getField('product_type_description')->show());
+print_r($tb->fields()->getField('product_type_description')->getDataType());
+echo "<br><hr><br>";
 
 // show all field
 echo "<h2>show all field</h2>";
@@ -79,11 +87,6 @@ $obj = array(
 $tb->fields()->addField($obj);
 print_r($tb->fields()->getAllField()) . '<br>';
 echo "<h3>Total field pada tabel $table : " . $tb->fields()->count() . '</h3><br>';
-echo "<br><hr><br>";
-
-// get specific field
-echo "<h2>get specific field</h2>";
-print_r($tb->fields()->getField($fieldName)->show());
 echo "<br><hr><br>";
 
 // delete field
