@@ -2,129 +2,80 @@
 
 class myField
 {
-    private $fieldName, $dataType, $dataLength = [];
-    private $isPK, $isNull = [];
+    private $fieldName, $dataType, $dataLength, $isPK, $isNull;
 
-    public function fieldSet($fieldName, $dataType, $dataLength, $isPK, $isNull, $key)
-    {
-        $this->fieldName[$key] = $fieldName;
-        $this->dataType[$key] = $dataType;
-        $this->dataLength[$key] = $dataLength;
-        $this->isPK[$key] = $isPK;
-        $this->isNull[$key] = $isNull;
-    }
-
-    public function fieldDelete($key)
-    {
-        unset($this->fieldName[$key]);
-        unset($this->dataType[$key]);
-        unset($this->dataLength[$key]);
-        unset($this->isPK[$key]);
-        unset($this->isNull[$key]);
+    public function fieldSet($fieldName, $dataType, $dataLength, $isPK, $isNull){
+        $this->fieldName = $fieldName;
+        $this->dataType = $dataType;
+        $this->dataLength = $dataLength;
+        $this->isPK = $isPK;
+        $this->isNull = $isNull;
     }
 
     // fieldName
-    public function getFieldName($value)
-    {
-        if (!empty($this->fieldName[$value])) return $this->fieldName[$value];
-    }
-
-    public function getAllFieldName()
+    public function getFieldName()
     {
         if (!empty($this->fieldName)) return $this->fieldName;
     }
 
-    public function setFieldName($value, $key)
+    public function setFieldName($value)
     {
-        $this->fieldName[$key] = $value;
-    }
-
-    public function deleteFieldName($key)
-    {
-        unset($this->fieldName[$key]);
+        $this->fieldName = $value;
     }
 
     // dataType
-    public function getDataType($value)
-    {
-        if (!empty($this->dataType[$value])) return $this->dataType[$value];
-    }
-
-    public function getAllDataType()
+    public function getDataType()
     {
         if (!empty($this->dataType)) return $this->dataType;
     }
 
-    public function setDataType($value, $key)
+    public function setDataType($value)
     {
-        $this->dataType[$key] = $value;
-    }
-
-    public function deleteDataType($key)
-    {
-        unset($this->dataType[$key]);
+        $this->dataType = $value;
     }
 
     // dataLength
-    public function getDataLength($value)
-    {
-        if (!empty($this->dataLength[$value])) return $this->dataLength[$value];
-    }
-
-    public function getAllDataLength()
+    public function getDataLength()
     {
         if (!empty($this->dataLength)) return $this->dataLength;
     }
 
-    public function setDataLength($value, $key)
+    public function setDataLength($value)
     {
-        $this->dataLength[$key] = $value;
-    }
-
-    public function deleteDataLength($key)
-    {
-        unset($this->dataLength[$key]);
+        $this->dataLength = $value;
     }
 
     // isPK
-    public function getIsPK($value)
-    {
-        if (!empty($this->isPK[$value])) return $this->isPK[$value];
-    }
-
-    public function getAllIsPK()
+    public function getIsPK()
     {
         if (!empty($this->isPK)) return $this->isPK;
     }
 
-    public function setIsPK($value, $key)
+    public function setIsPK($value)
     {
-        $this->isPK[$key] = $value;
-    }
-
-    public function deleteIsPK($key)
-    {
-        unset($this->isPK[$key]);
+        $this->isPK = $value;
     }
 
     // isNull
-    public function getIsNull($value)
-    {
-        if (!empty($this->isNull[$value])) return $this->isNull[$value];
-    }
-
-    public function getAllIsNull()
+    public function getIsNull()
     {
         if (!empty($this->isNull)) return $this->isNull;
     }
 
-    public function setIsNull($value, $key)
+    public function setIsNull($value)
     {
-        $this->isNull[$key] = $value;
+        $this->isNull = $value;
     }
 
-    public function deleteIsNull($key)
+    // show field
+    public function show()
     {
-        unset($this->isNull[$key]);
+        return array(
+            'fieldName' => $this->fieldName,
+            'dataType' => $this->dataType,
+            'dataLength' => $this->dataLength,
+            'isPK' => $this->isPK,
+            'isNull' => $this->isNull
+        );
     }
 }

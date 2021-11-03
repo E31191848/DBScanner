@@ -21,14 +21,6 @@ class DBScanner
             if (!$this->addAllTable($koneksi, $db)) {
                 die("Gagal sync table!");
             }
-            $this->tables->setDB(
-                array(
-                    'koneksi' => $koneksi,
-                    'host' => $host, 
-                    'username' => $usrname,
-                    'dbname' => $db
-                )
-            );
             return $koneksi;
         }
     }
@@ -50,10 +42,43 @@ class DBScanner
                 'tableName' => $tb_name,
                 'isView' => $isView
             );
+
             $status = $this->tables->addTable($obj);
+
+            // setiap perulangan add field data ke array / collection berdasarkan nama tabel
+            if($status) $this->addAllField($con, $db, $tb_name);
         }
 
         return $status;
+    }
+
+    // menambahkan semua field dari database ke array / collection
+    public function addAllField($con, $db, $table)
+    {
+        $check = $this->tables->getTable($table);
+        if (isset($check)) {
+            $result = $con->query("SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = '$db' AND TABLE_NAME = '$table'");
+
+            while ($row = mysqli_fetch_assoc($result)) {
+                $fieldName = $row['COLUMN_NAME'];
+                $dataType = $row['DATA_TYPE'];
+                $dataLength = !empty($row['CHARACTER_MAXIMUM_LENGTH']) ? $row['CHARACTER_MAXIMUM_LENGTH'] : $row['NUMERIC_PRECISION'];
+                $isPK = $row['COLUMN_KEY'] == 'PRI' ? true : false;
+                $isNull = $row['IS_NULLABLE'] == 'YES' ? true : false;
+                $obj = array(
+                    'fieldName' => $fieldName,
+                    'dataType' => $dataType,
+                    'dataLength' => $dataLength,
+                    'isPK' => $isPK,
+                    'isNull' => $isNull
+                );
+                $this->tables->getTable($table)->fields()->addField($obj);
+            }
+
+            return $this;
+        } else {
+            exit("Tabel '$table' tidak ada.");
+        }
     }
 
     public function tables()

@@ -2,60 +2,41 @@
 
 class myTable
 {
-    private $tableName = [];
-    private $isView = [];
+    private $tableName, $isView;
 
-    public function tableSet($tableName, $isView, $key)
-    {
-        $this->tableName[$key] = $tableName;
-        $this->isView[$key] = $isView;
-    }
-
-    public function tableDelete($key)
-    {
-        unset($this->tableName[$key]);
-        unset($this->isView[$key]);
+    public function tableSet($tableName, $isView){
+        $this->tableName = $tableName;
+        $this->isView = $isView;
     }
 
     // tableName
-    public function getTableName($value)
-    {
-        if (!empty($this->tableName[$value])) return $this->tableName[$value];
-    }
-
-    public function getAllTableName()
+    public function getTableName()
     {
         if (!empty($this->tableName)) return $this->tableName;
     }
 
-    public function setTableName($value, $key)
+    public function setTableName($value)
     {
-        $this->tableName[$key] = $value;
-    }
-
-    public function deleteTableName($key)
-    {
-        unset($this->tableName[$key]);
+        $this->tableName = $value;
     }
 
     // isView
-    public function getIsView($value)
-    {
-        if (!empty($this->isView[$value])) return $this->isView[$value];
-    }
-
-    public function getAllIsView()
+    public function getIsView()
     {
         if (!empty($this->isView)) return $this->isView;
     }
 
-    public function setIsView($value, $key)
+    public function setIsView($value)
     {
-        $this->isView[$key] = $value;
+        $this->isView = $value;
     }
 
-    public function deleteIsView($key)
+    // show table
+    public function show()
     {
-        unset($this->isView[$key]);
+        return array(
+            'tableName' => $this->tableName,
+            'isView' => $this->isView
+        );
     }
 }

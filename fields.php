@@ -5,6 +5,7 @@ include_once('field.php');
 class myFields
 {
     private $field;
+    private $arrField = [];
 
     function __construct()
     {
@@ -13,61 +14,59 @@ class myFields
 
     public function addField($obj)
     {
-        !empty($obj['fieldName']) ? $key = $obj['fieldName'] : $key = null;
-        if ($key == null) {
-            $this->field->fieldSet(
-                'tanpa_nama',
-                $obj['dataType'],
-                $obj['dataLength'],
-                $obj['isPK'] ? 'true' : 'false',
-                $obj['isNull'] ? 'true' : 'false',
-                'tanpa_nama'
+        $key = $obj['fieldName'];
+        if (isset($this->arrField[$key])) {
+            return "Field $key sudah ada.";
+        } else {
+            $this->arrField[$key] = array(
+                'fieldName' => $obj['fieldName'],
+                'dataType' => $obj['dataType'],
+                'dataLength' => $obj['dataLength'],
+                'isPK' => $obj['isPK'] ? 'true' : 'false',
+                'isNull' => $obj['isNull'] ? 'true' : 'false'
             );
             return true;
-        } else {
-            $check = $this->field->getFieldName($key);
-            if (isset($check)) {
-                return "Field $key sudah ada.";
-            } else {
-                $this->field->fieldSet(
-                    $obj['fieldName'],
-                    $obj['dataType'],
-                    $obj['dataLength'],
-                    $obj['isPK'] ? 'true' : 'false',
-                    $obj['isNull'] ? 'true' : 'false',
-                    $key
-                );
-                return true;
-            }
         }
     }
 
     public function getField($key)
     {
-        $check = $this->field->getFieldName($key);
+        $check = $this->arrField[$key];
         if (isset($check)) {
-            $arr = array(
-                'fieldName' => $this->field->getFieldName($key),
-                'dataType' => $this->field->getDataType($key),
-                'dataLength' => $this->field->getDataLength($key),
-                'isPK' => $this->field->getIsPK($key),
-                'isNull' => $this->field->getIsNull($key)
+            $this->field()->fieldSet(
+                $this->arrField[$key]['fieldName'], 
+                $this->arrField[$key]['dataType'], 
+                $this->arrField[$key]['dataLength'], 
+                $this->arrField[$key]['isPK'], 
+                $this->arrField[$key]['isNull']
             );
-            return $arr;
+            return $this->field;
         } else {
             echo "Field '$key' tidak ada.";
         }
     }
 
+    public function getAllField()
+    {
+        $string = '';
+        foreach ($this->arrField as $row) {
+            $fieldName = $row['fieldName'];
+            $dataType = $row['dataType'];
+            $dataLength = $row['dataLength'];
+            $isPK = $row['isPK'];
+            $isNull = $row['isNull'];
+
+            $string .= "fieldName : $fieldName <br> ->dataType : $dataType <br> ->dataLength : $dataLength <br> ->isPK : $isPK <br> ->isNull : $isNull<br><br>";
+        }
+        return $string;
+        // return $this->arrField;
+    }
+
     public function deleteField($key)
     {
-        $check = $this->field->getFieldName($key);
+        $check = $this->arrField[$key];
         if (isset($check)) {
-            $this->field->fieldDelete($key);
-            return true;
-        } elseif ($this->getField('tanpa_nama') && empty($check)) {
-            $this->field->fieldDelete('tanpa_nama');
-            return true;
+            unset($this->arrField[$key]);
         } else {
             echo "Field '$key' tidak ada.";
         }
@@ -75,20 +74,11 @@ class myFields
 
     public function count()
     {
-        return count($this->showAllField());
+        return count($this->arrField);
     }
 
-    public function showAllField()
+    public function field()
     {
-        foreach ($this->field->getAllFieldName() as $row) {
-            $arr[] = array(
-                'fieldName' => $row,
-                'dataType' => $this->field->getDataType($row),
-                'dataLength' => $this->field->getDataLength($row),
-                'isPK' => $this->field->getIsPK($row),
-                'isNull' => $this->field->getIsNull($row)
-            );
-        }
-        return $arr;
+        return $this->field;
     }
 }
