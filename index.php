@@ -15,8 +15,8 @@ echo "<h1 style='text-align: center;'>TABLE</h1>";
 
 // get specific table
 echo "<h2>get specific table</h2>";
-print_r($db->tables()->getTable('report_penjualan_harian')->table()->show()) . '<br>';
-print_r($db->tables()->getTable('report_penjualan_harian')->table()->getIsView()) . '<br>';
+print_r($db->tables()->getTable('report_penjualan_harian')->show()) . '<br>';
+print_r($db->tables()->getTable('report_penjualan_harian')->getIsView()) . '<br>';
 echo "<br><hr><br>";
 
 // show all table

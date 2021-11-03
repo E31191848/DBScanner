@@ -1,18 +1,15 @@
 <?php
 
 include_once('./table.php');
-include_once('fields.php');
 
 class myTables
 {
     private $table;
-    private $fields;
     private $arrTable = [];
 
     function __construct()
     {
         $this->table = new myTable();
-        $this->fields = new myFields();
     }
 
     public function addTable($obj)
@@ -38,7 +35,7 @@ class myTables
                 $this->arrTable[$key]['isView']
             );
             // return $this->arrTable[$key];
-            return $this;
+            return $this->table;
         } else {
             echo "Tabel '$key' tidak ada.";
         }
@@ -75,10 +72,5 @@ class myTables
     public function table()
     {
         return $this->table;
-    }
-
-    public function fields()
-    {
-        return $this->fields;
     }
 }

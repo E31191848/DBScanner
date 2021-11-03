@@ -1,8 +1,16 @@
 <?php
 
+include_once('fields.php');
+
 class myTable
 {
+    private $fields;
     private $tableName, $isView;
+
+    function __construct()
+    {
+        $this->fields = new myFields();
+    }
 
     public function tableSet($tableName, $isView){
         $this->tableName = $tableName;
@@ -38,5 +46,10 @@ class myTable
             'tableName' => $this->tableName,
             'isView' => $this->isView
         );
+    }
+
+    public function fields()
+    {
+        return $this->fields;
     }
 }
