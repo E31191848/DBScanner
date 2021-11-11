@@ -38,7 +38,7 @@ final class myTable
     public function show()
     {
         return "
-        <table style=''>
+        <table>
             <tr>
                 <th>No</th>
                 <th>tableName</th>

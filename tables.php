@@ -78,7 +78,7 @@ final class myTables
     public function deleteTable($key)
     {
         if (filter_var($key, FILTER_VALIDATE_INT) === false) {
-            // get by table name
+            // delete by table name
             for ($x = 0; $x < sizeof($this->listTable); $x++) {
                 if ($this->listTable[$x]->getTableName() == $key) {
                     unset($this->listTable[$x]);
@@ -87,7 +87,7 @@ final class myTables
             }
             exit("Tabel '$key' tidak ada.");
         } else {
-            // get by index
+            // delete by index
             if (isset($this->listTable[$key])) {
                 unset($this->listTable[$key]);
                 return $this;

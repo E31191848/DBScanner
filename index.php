@@ -56,7 +56,7 @@
     echo "<h2>get specific table</h2>";
     echo $db->tables()->getTable('report_penjualan_harian')->show() . '<br>';
     echo "getIsView : " . $db->tables()->getTable('report_penjualan_harian')->getIsView() . '<br>';
-    echo "<br><hr><br>";
+    echo "<br><br><hr><br>";
 
     // show all table
     echo "<h2>show all table</h2>";
@@ -96,11 +96,11 @@
     echo "<h2>get specific field of table $table</h2>";
     echo $tb->fields()->getField('order_bayar')->show() . '<br>';
     echo "getDataType : " . $tb->fields()->getField('order_bayar')->getDataType();
-    echo "<br><br><hr><br>";
+    echo "<br><br><br><hr><br>";
 
     // show all field
     echo "<h2>show all field of table $table</h2>";
-    echo ($tb->fields()->getAllField()) . '<br>';
+    echo ($tb->fields()->getAllField());
     echo "<h3>Total field pada tabel $table : " . $tb->fields()->count() . '</h3><br>';
     echo "<br><hr><br>";
 
@@ -122,8 +122,10 @@
     $tb->fields()->deleteField($fieldName);
     print_r($tb->fields()->getAllField()) . '<br>';
     echo "<h3>Total field pada tabel $table : " . $tb->fields()->count() . '</h3><br>';
-    echo "<br><hr><br>";
 
+    /* ---------------------SHOW OBJECT--------------------- */
+    // echo "<pre>";
+    // print_r($db->tables()->getTable('tb_order'))
     ?>
 
 </body>
