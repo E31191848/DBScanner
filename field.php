@@ -1,10 +1,11 @@
 <?php
 
-class myField
+final class myField
 {
     private $fieldName, $dataType, $dataLength, $isPK, $isNull;
 
-    public function fieldSet($fieldName, $dataType, $dataLength, $isPK, $isNull){
+    public function fieldSet($fieldName, $dataType, $dataLength, $isPK, $isNull)
+    {
         $this->fieldName = $fieldName;
         $this->dataType = $dataType;
         $this->dataLength = $dataLength;
@@ -15,7 +16,7 @@ class myField
     // fieldName
     public function getFieldName()
     {
-        if (!empty($this->fieldName)) return $this->fieldName;
+        return $this->fieldName;
     }
 
     public function setFieldName($value)
@@ -26,7 +27,7 @@ class myField
     // dataType
     public function getDataType()
     {
-        if (!empty($this->dataType)) return $this->dataType;
+        return $this->dataType;
     }
 
     public function setDataType($value)
@@ -37,7 +38,7 @@ class myField
     // dataLength
     public function getDataLength()
     {
-        if (!empty($this->dataLength)) return $this->dataLength;
+        return $this->dataLength;
     }
 
     public function setDataLength($value)
@@ -48,7 +49,7 @@ class myField
     // isPK
     public function getIsPK()
     {
-        if (!empty($this->isPK)) return $this->isPK;
+        return $this->isPK;
     }
 
     public function setIsPK($value)
@@ -59,7 +60,7 @@ class myField
     // isNull
     public function getIsNull()
     {
-        if (!empty($this->isNull)) return $this->isNull;
+        return $this->isNull;
     }
 
     public function setIsNull($value)
@@ -70,12 +71,25 @@ class myField
     // show field
     public function show()
     {
-        return array(
-            'fieldName' => $this->fieldName,
-            'dataType' => $this->dataType,
-            'dataLength' => $this->dataLength,
-            'isPK' => $this->isPK,
-            'isNull' => $this->isNull
-        );
+        return "
+        <table>
+            <tr>
+                <th>No</th>
+                <th>fieldName</th>
+                <th>dataType</th>
+                <th>dataLength</th>
+                <th>isPK</th>
+                <th>isNull</th>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>$this->fieldName</td>
+                <td>$this->dataType</td>
+                <td>$this->dataLength</td>
+                <td>$this->isPK</td>
+                <td>$this->isNull</td>
+            </tr>
+        </table>
+        ";
     }
 }

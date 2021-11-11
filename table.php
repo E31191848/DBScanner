@@ -2,9 +2,9 @@
 
 include_once('fields.php');
 
-class myTable
+final class myTable
 {
-    private $fields;
+    // private $fields;
     private $tableName, $isView;
 
     function __construct()
@@ -12,15 +12,10 @@ class myTable
         $this->fields = new myFields();
     }
 
-    public function tableSet($tableName, $isView){
-        $this->tableName = $tableName;
-        $this->isView = $isView;
-    }
-
     // tableName
     public function getTableName()
     {
-        if (!empty($this->tableName)) return $this->tableName;
+        return $this->tableName;
     }
 
     public function setTableName($value)
@@ -31,7 +26,7 @@ class myTable
     // isView
     public function getIsView()
     {
-        if (!empty($this->isView)) return $this->isView;
+        return $this->isView;
     }
 
     public function setIsView($value)
@@ -42,10 +37,20 @@ class myTable
     // show table
     public function show()
     {
-        return array(
-            'tableName' => $this->tableName,
-            'isView' => $this->isView
-        );
+        return "
+        <table style=''>
+            <tr>
+                <th>No</th>
+                <th>tableName</th>
+                <th>isView</th>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>$this->tableName</td>
+                <td>$this->isView</td>
+            </tr>
+        </table>
+        ";
     }
 
     public function fields()

@@ -38,15 +38,11 @@ class DBScanner
                                 WHERE TABLE_SCHEMA = '$db' AND TABLE_NAME = '$tb_name'")
             );
             $isViewRow[0] == 'VIEW' ? $isView = true : $isView = false;
-            $obj = array(
-                'tableName' => $tb_name,
-                'isView' => $isView
-            );
 
-            $status = $this->tables->addTable($obj);
+            $status = $this->tables->addTable($tb_name, $isView);
 
             // setiap perulangan add field data ke array / collection berdasarkan nama tabel
-            if($status) $this->addAllField($con, $db, $tb_name);
+            if ($status) $this->addAllField($con, $db, $tb_name);
         }
 
         return $status;
@@ -63,16 +59,10 @@ class DBScanner
                 $fieldName = $row['COLUMN_NAME'];
                 $dataType = $row['DATA_TYPE'];
                 $dataLength = !empty($row['CHARACTER_MAXIMUM_LENGTH']) ? $row['CHARACTER_MAXIMUM_LENGTH'] : $row['NUMERIC_PRECISION'];
+                !empty($dataLength) ? $dataLength : $dataLength = $row['DATETIME_PRECISION'];
                 $isPK = $row['COLUMN_KEY'] == 'PRI' ? true : false;
                 $isNull = $row['IS_NULLABLE'] == 'YES' ? true : false;
-                $obj = array(
-                    'fieldName' => $fieldName,
-                    'dataType' => $dataType,
-                    'dataLength' => $dataLength,
-                    'isPK' => $isPK,
-                    'isNull' => $isNull
-                );
-                $this->tables->getTable($table)->fields()->addField($obj);
+                $this->tables->getTable($table)->fields()->addField($fieldName, $dataType, $dataLength, $isPK, $isNull);
             }
 
             return $this;

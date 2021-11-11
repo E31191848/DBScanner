@@ -2,79 +2,113 @@
 
 include_once('field.php');
 
-class myFields
+final class myFields
 {
     private $field;
-    private $arrField = [];
+    private $listField = [];
 
     function __construct()
     {
         $this->field = new myField();
     }
 
-    public function addField($obj)
+    public function addField($fieldName, $dataType, $dataLength, $isPK, $isNull)
     {
-        $key = $obj['fieldName'];
-        if (isset($this->arrField[$key])) {
-            return "Field $key sudah ada.";
-        } else {
-            $this->arrField[$key] = array(
-                'fieldName' => $obj['fieldName'],
-                'dataType' => $obj['dataType'],
-                'dataLength' => $obj['dataLength'],
-                'isPK' => $obj['isPK'] ? 'true' : 'false',
-                'isNull' => $obj['isNull'] ? 'true' : 'false'
-            );
-            return true;
+        for ($x = 0; $x < sizeof($this->listField); $x++) {
+            if ($this->listField[$x]->getFieldName() == $fieldName) {
+                exit("Field '$fieldName' sudah ada.");
+            }
         }
+
+        $field = new myField();
+        $field->setFieldName($fieldName);
+        $field->setDataType($dataType);
+        $field->setDataLength($dataLength);
+        $field->setIsPK($isPK ? 'true' : 'false');
+        $field->setIsNull($isNull ? 'true' : 'false');
+
+        $this->listField[] = $field;
+        return $this;
     }
 
     public function getField($key)
     {
-        $check = $this->arrField[$key];
-        if (isset($check)) {
-            $this->field()->fieldSet(
-                $this->arrField[$key]['fieldName'], 
-                $this->arrField[$key]['dataType'], 
-                $this->arrField[$key]['dataLength'], 
-                $this->arrField[$key]['isPK'], 
-                $this->arrField[$key]['isNull']
-            );
-            return $this->field;
+        if (filter_var($key, FILTER_VALIDATE_INT) === false) {
+            // get by field name
+            for ($x = 0; $x < sizeof($this->listField); $x++) {
+                if ($this->listField[$x]->getFieldName() == $key) {
+                    return $this->listField[$x];
+                }
+            }
+            exit("Field '$key' tidak ada.");
         } else {
-            echo "Field '$key' tidak ada.";
+            // get by index
+            if (isset($this->listField[$key])) {
+                return $this->listField[$key];
+            } else {
+                exit("Index '$key' tidak ada.");
+            }
         }
     }
 
     public function getAllField()
     {
-        $string = '';
-        foreach ($this->arrField as $row) {
-            $fieldName = $row['fieldName'];
-            $dataType = $row['dataType'];
-            $dataLength = $row['dataLength'];
-            $isPK = $row['isPK'];
-            $isNull = $row['isNull'];
+        $string = "
+        <table>
+            <tr>
+                <th>fieldName</th>
+                <th>dataType</th>
+                <th>dataLength</th>
+                <th>isPK</th>
+                <th>isNull</th>
+            </tr>
+        ";
+        foreach ($this->listField as $field) {
+            $fieldName = $field->getFieldName();
+            $dataType = $field->getDataType();
+            $dataLength = $field->getDataLength();
+            $isPK = $field->getIsPK();
+            $isNull = $field->getIsNull();
 
-            $string .= "fieldName : $fieldName <br> ->dataType : $dataType <br> ->dataLength : $dataLength <br> ->isPK : $isPK <br> ->isNull : $isNull<br><br>";
+            $string .= "
+            <tr>
+                <td>$fieldName</td>
+                <td>$dataType</td>
+                <td>$dataLength</td>
+                <td>$isPK</td>
+                <td>$isNull</td>
+            </tr>
+            ";
         }
+        $string .= "</table>";
         return $string;
-        // return $this->arrField;
     }
 
     public function deleteField($key)
     {
-        $check = $this->arrField[$key];
-        if (isset($check)) {
-            unset($this->arrField[$key]);
+        if (filter_var($key, FILTER_VALIDATE_INT) === false) {
+            // get by field name
+            for ($x = 0; $x < sizeof($this->listField); $x++) {
+                if ($this->listField[$x]->getFieldName() == $key) {
+                    unset($this->listField[$x]);
+                    return $this;
+                }
+            }
+            exit("Field '$key' tidak ada.");
         } else {
-            echo "Field '$key' tidak ada.";
+            // get by index
+            if (isset($this->listField[$key])) {
+                unset($this->listField[$key]);
+                return $this;
+            } else {
+                exit("Index '$key' tidak ada.");
+            }
         }
     }
 
     public function count()
     {
-        return count($this->arrField);
+        return count($this->listField);
     }
 
     public function field()

@@ -2,71 +2,104 @@
 
 include_once('./table.php');
 
-class myTables
+final class myTables
 {
     private $table;
-    private $arrTable = [];
+    private $listTable = [];
 
     function __construct()
     {
         $this->table = new myTable();
     }
 
-    public function addTable($obj)
+    public function addTable($tableName, $isView)
     {
-        $key = $obj['tableName'];
-        if (isset($this->arrTable[$key])) {
-            echo "Tabel $key sudah ada.";
-        } else {
-            $this->arrTable[$key] = array(
-                'tableName' => $obj['tableName'],
-                'isView' => $obj['isView'] ? 'true' : 'false'
-            );
-            return true;
+        for ($x = 0; $x < sizeof($this->listTable); $x++) {
+            if ($this->listTable[$x]->getTableName() == $tableName) {
+                exit("Tabel '$tableName' sudah ada.");
+            }
         }
+
+        $table = new myTable();
+        $table->setTableName($tableName);
+        $table->setIsView($isView ? 'true' : 'false');
+
+        $this->listTable[] = $table;
+        return $this;
     }
 
     public function getTable($key)
     {
-        $check = $this->arrTable[$key];
-        if (isset($check)) {
-            $this->table()->tableSet(
-                $this->arrTable[$key]['tableName'],
-                $this->arrTable[$key]['isView']
-            );
-            // return $this->arrTable[$key];
-            return $this->table;
+        if (filter_var($key, FILTER_VALIDATE_INT) === false) {
+            // get by table name
+            for ($x = 0; $x < sizeof($this->listTable); $x++) {
+                if ($this->listTable[$x]->getTableName() == $key) {
+                    return $this->listTable[$x];
+                }
+            }
+            exit("Tabel '$key' tidak ada.");
         } else {
-            echo "Tabel '$key' tidak ada.";
+            // get by index
+            if (isset($this->listTable[$key])) {
+                return $this->listTable[$key];
+            } else {
+                exit("Index '$key' tidak ada.");
+            }
         }
     }
 
     public function getAllTable()
     {
-        $string = '';
-        foreach ($this->arrTable as $row) {
-            $tableName = $row['tableName'];
-            $isView = $row['isView'];
+        $string = "
+        <table>
+            <tr>
+                <th>No</th>
+                <th>tableName</th>
+                <th>isView</th>
+            </tr>
+        ";
+        $no = 1;
+        foreach ($this->listTable as $table) {
+            $tableName = $table->getTableName();
+            $isView = $table->getIsView();
 
-            $string .= "tableName : $tableName <br> ->isView : $isView<br><br>";
+            $string .= "
+            <tr>
+                <td>" . $no++ . "</td>
+                <td>$tableName</td>
+                <td>$isView</td>
+            </tr>
+            ";
         }
+        $string .= "</table>";
         return $string;
-        // return $this->arrTable;
     }
 
     public function deleteTable($key)
     {
-        $check = $this->arrTable[$key];
-        if (isset($check)) {
-            unset($this->arrTable[$key]);
+        if (filter_var($key, FILTER_VALIDATE_INT) === false) {
+            // get by table name
+            for ($x = 0; $x < sizeof($this->listTable); $x++) {
+                if ($this->listTable[$x]->getTableName() == $key) {
+                    unset($this->listTable[$x]);
+                    return $this;
+                }
+            }
+            exit("Tabel '$key' tidak ada.");
         } else {
-            echo "Tabel '$key' tidak ada.";
+            // get by index
+            if (isset($this->listTable[$key])) {
+                unset($this->listTable[$key]);
+                return $this;
+            } else {
+                exit("Index '$key' tidak ada.");
+            }
         }
     }
 
     public function count()
     {
-        return count($this->arrTable);
+        return count($this->listTable);
     }
 
     public function table()
